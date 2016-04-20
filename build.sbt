@@ -12,7 +12,7 @@ crossScalaVersions in ThisBuild := Seq("2.11.11", "2.12.2")
 name := "strace-analyzer"
 
 libraryDependencies += "com.github.wookietreiber" %% "scala-chart"   % "0.5.1"
-libraryDependencies += "org.scalaz.stream"        %% "scalaz-stream" % "0.8"
+libraryDependencies += "org.scalaz.stream"        %% "scalaz-stream" % "0.8.1"
 
 buildInfoKeys := Seq[BuildInfoKey](name, version)
 buildInfoPackage := "strace.analyze"

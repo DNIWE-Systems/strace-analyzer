@@ -25,73 +25,21 @@
 package strace
 package analyze
 
-import scalax.chart.api._
-
+import scalaz.Monoid
 import scalaz.concurrent.Task
-import scalaz.stream._
-import scalaz.std.anyVal._
 import scalaz.std.map._
+import scalaz.stream._
 
-import org.jfree.data.time.Second
+object util {
+  implicit class RichProcess[O](underlying: Process[Task,O]) {
 
-object IOProfile extends Analysis {
-  def analyze(implicit config: Config): Unit =
-    for ((log,entries) <- parseLogs) {
-      saveChart(log, entries, op = "read") {
-        case entry: LogEntry.PRead => entry
-        case entry: LogEntry.Read => entry
+    def groupByFoldMonoid[K](f: O => K)(implicit MO: Monoid[O]): Task[Map[K, O]] =
+      groupByFoldMap(f)(identity)
+
+    def groupByFoldMap[K,O2](f: O => K)(g: O => O2)(implicit MO: Monoid[O2]): Task[Map[K, O2]] =
+      underlying runFoldMap { cur =>
+        Map(f(cur) -> g(cur))
       }
 
-      saveChart(log, entries, op = "write") {
-        case entry: LogEntry.PWrite => entry
-        case entry: LogEntry.Write => entry
-      }
-    }
-
-  def saveChart(log: String, entries: Process[Task,LogEntry], op: String)
-               (pf: PartialFunction[LogEntry,LogEntry with HasBytes with HasFD]): Unit = {
-
-    import util._
-
-    val filtered = entries.collect(pf)
-
-    val analysis = filtered.groupByFoldMap(_.fd) { entry =>
-      Map(new Second(new java.util.Date(entry.jepoch)) -> entry.bytes)
-    }
-
-    for ((file,data) <- analysis.run) {
-      val filename = new java.io.File(file).getName
-      val logname = new java.io.File(log).getName
-
-      val chart = genChart(data)
-
-      chart.saveAsPNG (
-        file = s"""strace-analyzer-profile-$op-$logname-$filename.png""",
-        resolution = (1920,1080)
-      )
-    }
-  }
-
-  def genChart[A <: LogEntry with HasBytes](data: Map[Second,Long]) = {
-    import java.text._
-    import org.jfree.chart.axis.NumberAxis
-
-    val chart = XYBarChart(data.toTimeSeries(""))
-    chart.subtitles.clear()
-    chart.plot.range.axis.label.text = "bytes"
-    chart.plot.range.axis.peer match {
-      case axis: NumberAxis =>
-        axis setNumberFormatOverride new NumberFormat {
-          def format(value: Long, buf: StringBuffer, fp: FieldPosition): StringBuffer =
-            buf append Memory.humanize(value)
-          def format(value: Double, buf: StringBuffer, fp: FieldPosition): StringBuffer =
-            format(value.round, buf, fp)
-          def parse(value: String, pp: ParsePosition): Number = ???
-        }
-
-      case _ =>
-    }
-
-    chart
   }
 }

@@ -27,17 +27,16 @@ package analyze
 
 import scalaz.concurrent.Task
 import scalaz.stream._
-import scalaz.std.map._
 
 trait PerFileSummary extends HasFileOpSummary {
   def analysis(entries: Process[Task,LogEntry], op: String)
               (pf: PartialFunction[LogEntry,LogEntry with HasBytes with HasFD]): Unit = {
 
+    import util._
+
     val filtered = entries.collect(pf)
 
-    val analysis = filtered.runFoldMap({ entry =>
-      Map(entry.fd -> FileOpSummary(entry))
-    }).run
+    val analysis = filtered.groupByFoldMap(_.fd)(FileOpSummary(_)).run
 
     for ((file,analysis) <- analysis) {
       val output = analysis.humanized(op)

@@ -62,11 +62,11 @@ object IOProfile extends Analysis {
     import org.jfree.chart.axis.NumberAxis
     import org.jfree.data.time.Second
 
-    val raw = for {
-      entry <- entries
-      time = new Second(new Date(entry.jepoch))
-      value = entry.bytes
-    } yield (time,value)
+    val raw = for (entry <- entries) yield {
+      val time = new Second(new Date(entry.jepoch))
+      val value = entry.bytes
+      (time,value)
+    }
 
     val data = raw.groupBy(_._1).mapValues(_.foldLeft(0L)(_ + _._2))
 

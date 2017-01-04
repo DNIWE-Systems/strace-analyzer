@@ -9,9 +9,7 @@ Analyzes [strace][] output. Currently, the following analysis commands are provi
 - **io** does both **read** and **write**
 - **io-profile** per file **read** and **write** profile, outputs a chart (png) per file and per op
 
-File descriptors are associated with file names. The association is made when syscalls like
-**open**, **creat**, **dup** or **pipe** are read from the log and the association gets terminated
-when they get **close**d.
+File descriptors are associated with file names. The association is made when syscalls like **open**, **creat**, **dup** or **pipe** are read from the log and the association gets terminated when they get **close**d.
 
 building
 --------
@@ -59,31 +57,23 @@ $ strace-analyzer --help
 caveats
 -------
 
--   does only work with traces created with the usage example above, there is no support for logs
-    that contain output of multiple process ids
+-   does only work with traces created with the usage example above, there is no support for logs that contain output of multiple process ids
 
--   does not parse unfinished / resumed entries, single-threaded application runs are recommended or
-    else you are going to miss a lot of entries
+-   does not parse unfinished / resumed entries, single-threaded application runs are recommended or else you are going to miss a lot of entries
 
 issues, features, use-cases, wish list
 --------------------------------------
 
--   If you think of a new (possibly high-level) analysis use case or how to improve an existing one,
-    please [open an issue][newissue]. If you have an idea on how the output should look like, feel
-    free to include a sketch of an example.
+-   If you think of a new (possibly high-level) analysis use case or how to improve an existing one, please [open an issue][newissue]. If you have an idea on how the output should look like, feel free to include a sketch of an example.
 
--   If you recognize missing file associations in the output, i.e. bare file descriptor numbers
-    without a note as to why it could not be identified, please [open an issue][newissue] and
-    provide access to that particular, complete strace log, so I am able to identify the problem.
+-   If you recognize missing file associations in the output, i.e. bare file descriptor numbers without a note as to why it could not be identified, please [open an issue][newissue] and provide access to that particular, complete strace log, so I am able to identify the problem.
 
-    If you know that a particular file should be included, because you know that file has been
-    opened, it would be of great help if you would name these files in the issue.
+    If you know that a particular file should be included, because you know that file has been opened, it would be of great help if you would name these files in the issue.
 
 features that will not be implemented
 -------------------------------------
 
-In the spirit of the Unix philosohpy of **do one thing and do it well**, strace-analyzer will not do
-any of the following:
+In the spirit of the Unix philosohpy of **do one thing and do it well**, strace-analyzer will **not** do any of the following:
 
 -   filtering, use tools like [grep][] or [awk][], e.g.:
 

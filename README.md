@@ -21,32 +21,39 @@ build dependencies:
 - [jdk][]
 - [sbt][]
 
-```bash
-git clone https://github.com/wookietreiber/strace-analyzer.git
-cd strace-analyzer
-sbt stage
-export PATH="$PWD/target/universal/stage/bin:$PATH"
+```console
+$ git clone https://github.com/wookietreiber/strace-analyzer.git
+$ cd strace-analyzer
+$ sbt stage
+$ export PATH="$PWD/target/universal/stage/bin:$PATH"
 ```
 
 usage
 -----
 
-```bash
-# create logs
-strace -T -ttt -ff -o app-strace.log app
+create logs:
 
-# analyze logs (command defines how they are analyzed)
-strace-analyzer command app-strace.log.*
+```console
+$ strace -T -ttt -ff -o app-strace.log app
+```
 
-# pipelining, ignore the useless use of cat, this is just an example ;-)
-cat app-strace.log.27049 | strace-analyzer read | column -t
+analyze logs (command defines how they are analyzed):
+
+```console
+$ strace-analyzer command app-strace.log.*
+```
+
+pipelining (ignore the [useless use of cat][uucaletter], this is just an example ;-)):
+
+```console
+$ cat app-strace.log.27049 | strace-analyzer read | column -t
 ```
 
 More help can be gotten via:
 
-```bash
-man strace-analyzer
-strace-analyzer --help
+```console
+$ man strace-analyzer
+$ strace-analyzer --help
 ```
 
 caveats
@@ -80,16 +87,22 @@ any of the following:
 
 -   filtering, use tools like [grep][] or [awk][], e.g.:
 
-        strace-analyzer read strace.log.1835 | grep scala
-        strace-analyzer read strace.log.1835 | awk '/scala/'
+    ```console
+    $ strace-analyzer read strace.log.1835 | grep scala
+    $ strace-analyzer read strace.log.1835 | awk '/scala/'
+    ```
 
 -   sorting, use the [sort][] command line utility, e.g.:
 
-        strace-analyzer read strace.log.27049 | sort -h -k 2
+    ```console
+    $ strace-analyzer read strace.log.27049 | sort -h -k 2
+    ```
 
 -   pretty tabular output printing, use the [column][] command line utility, e.g.:
 
-        strace-analyzer read strace.log.27049 | column -t
+    ```console
+    strace-analyzer read strace.log.27049 | column -t
+    ```
 
 [awk]: http://man7.org/linux/man-pages/man1/gawk.1.html "gawk man page"
 [column]: http://man7.org/linux/man-pages/man1/column.1.html "column man page"

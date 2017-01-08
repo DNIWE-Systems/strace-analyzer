@@ -91,7 +91,7 @@ In the spirit of the Unix philosohpy of **do one thing and do it well**, strace-
 -   pretty tabular output printing, use the [column][] command line utility, e.g.:
 
     ```console
-    strace-analyzer read strace.log.27049 | column -t
+    $ strace-analyzer read strace.log.27049 | column -t
     ```
 
 [awk]: http://man7.org/linux/man-pages/man1/gawk.1.html "gawk man page"

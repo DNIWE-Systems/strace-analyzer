@@ -40,17 +40,20 @@ trait PerFileSummary extends HasFileOpSummary {
       println(s"""$output $file""")
     }
   }
+
+  val read = "read"
+  val write = "write"
 }
 
 object IO extends Analysis with PerFileSummary {
   def analyze(implicit config: Config): Unit =
     for ((_,entries) <- parseLogs) {
-      analysis(entries, op = "read") {
+      analysis(entries, op = read) {
         case entry: LogEntry.PRead => entry
         case entry: LogEntry.Read => entry
       }
 
-      analysis(entries, op = "write") {
+      analysis(entries, op = write) {
         case entry: LogEntry.PWrite => entry
         case entry: LogEntry.Write => entry
       }
@@ -60,7 +63,7 @@ object IO extends Analysis with PerFileSummary {
 object Read extends Analysis with PerFileSummary {
   def analyze(implicit config: Config): Unit =
     for ((_,entries) <- parseLogs) {
-      analysis(entries, op = "read") {
+      analysis(entries, op = read) {
         case entry: LogEntry.PRead => entry
         case entry: LogEntry.Read => entry
       }
@@ -70,9 +73,10 @@ object Read extends Analysis with PerFileSummary {
 object Write extends Analysis with PerFileSummary {
   def analyze(implicit config: Config): Unit =
     for ((_,entries) <- parseLogs) {
-      analysis(entries, op = "write") {
+      analysis(entries, op = write) {
         case entry: LogEntry.PWrite => entry
         case entry: LogEntry.Write => entry
       }
     }
 }
+

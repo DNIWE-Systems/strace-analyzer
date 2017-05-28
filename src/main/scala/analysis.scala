@@ -32,6 +32,11 @@ import java.io._
   */
 abstract class Analysis {
 
+  val PIPE = "PIPE"
+  val STDIN = "STDIN"
+  val STDOUT = "STDOUT"
+  val STDERR = "STDERR"
+
   val bufSize = math.pow(2,20).toInt
 
   /** Analyzes strace logs and prints the result to STDOUT. */
@@ -40,7 +45,7 @@ abstract class Analysis {
   /** Returns the log entries grouped by log input. */
   def parseLogs(implicit config: Config): Iterator[(String,List[LogEntry])] =
     if (config.logs.isEmpty)
-      Iterator("STDIN" -> parseLog(io.Source.stdin))
+      Iterator(STDIN -> parseLog(io.Source.stdin))
     else {
       val xs = for {
         log <- config.logs.distinct.toIterator
@@ -54,9 +59,9 @@ abstract class Analysis {
   /** Returns a parsed strace log. */
   def parseLog(log: io.Source): List[LogEntry] = try {
     val fdDB = collection.mutable.Map[String,String] (
-      "0" -> "STDIN",
-      "1" -> "STDOUT",
-      "2" -> "STDERR"
+      "0" -> STDIN,
+      "1" -> STDOUT,
+      "2" -> STDERR
     )
 
     log.getLines.collect({
@@ -91,8 +96,8 @@ abstract class Analysis {
         openat
 
       case LogEntry.Pipe(pipe) if pipe.status >= 0 =>
-        fdDB += (pipe.read -> "PIPE")
-        fdDB += (pipe.write -> "PIPE")
+        fdDB += (pipe.read -> PIPE)
+        fdDB += (pipe.write -> PIPE)
         pipe
 
         // TODO ignore exit status 0?

@@ -33,7 +33,7 @@ object Analyzer extends App {
   // help / usage / version
   // -----------------------------------------------------------------------------------------------
 
-  def help() = {
+  def help(): Nothing = {
     import sys.process._
     "man strace-analyzer".!
     sys exit 0

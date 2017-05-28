@@ -25,6 +25,7 @@
 package strace
 package analyze
 
+import scalax.chart._
 import scalax.chart.api._
 
 object IOProfile extends Analysis {
@@ -58,7 +59,7 @@ object IOProfile extends Analysis {
     }
   }
 
-  def genChart[A <: LogEntry with HasBytes](entries: List[A]) = {
+  def genChart[A <: LogEntry with HasBytes](entries: List[A]): XYChart = {
     import java.text._
     import java.util.Date
     import org.jfree.chart.axis.NumberAxis

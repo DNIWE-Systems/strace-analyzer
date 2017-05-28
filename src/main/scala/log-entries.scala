@@ -61,7 +61,7 @@ object LogEntry {
   }
 
   case class Creat(epoch: String, file: String, fd: String, time: String) extends LogEntry {
-    def status = fd.toInt
+    override def status = fd.toInt
   }
 
   object Creat {
@@ -74,7 +74,7 @@ object LogEntry {
   }
 
   case class Dup(epoch: String, oldFd: String, newFd: String, time: String) extends LogEntry {
-    def status = newFd.toInt
+    override def status = newFd.toInt
   }
 
   object Dup {
@@ -87,7 +87,7 @@ object LogEntry {
   }
 
   case class Dup2(epoch: String, oldFd: String, newFd: String, time: String) extends LogEntry {
-    def status = newFd.toInt
+    override def status = newFd.toInt
   }
 
   object Dup2 {
@@ -99,8 +99,9 @@ object LogEntry {
     }
   }
 
-  case class Open(epoch: String, file: String, status: Int, time: String) extends LogEntry {
-    def fd = status.toString
+  case class Open(epoch: String, file: String, status: Int, time: String)
+      extends LogEntry with HasFD {
+    override def fd = status.toString
   }
 
   object Open {
@@ -112,9 +113,10 @@ object LogEntry {
     }
   }
 
-  case class OpenAt(epoch: String, wherefd: String, filename: String, status: Int, time: String) extends LogEntry {
-    def file(path: String) = s"""$path$fsSep$filename"""
-    def fd = status.toString
+  case class OpenAt(epoch: String, wherefd: String, filename: String, status: Int, time: String)
+      extends LogEntry with HasFD {
+    def file(path: String): String = s"""$path$fsSep$filename"""
+    override def fd = status.toString
   }
 
   object OpenAt {
@@ -139,7 +141,7 @@ object LogEntry {
 
   case class PRead(epoch: String, fd: String, reqbytes: Long, bytes: Long, time: String)
       extends LogEntry with HasBytes with HasFD {
-    def status = bytes.toInt
+    override def status = bytes.toInt
   }
 
   object PRead {
@@ -153,7 +155,7 @@ object LogEntry {
 
   case class PWrite(epoch: String, fd: String, reqbytes: Long, bytes: Long, time: String)
       extends LogEntry with HasBytes with HasFD {
-    def status = bytes.toInt
+    override def status = bytes.toInt
   }
 
   object PWrite {
@@ -167,7 +169,7 @@ object LogEntry {
 
   case class Read(epoch: String, fd: String, reqbytes: Long, bytes: Long, time: String)
       extends LogEntry with HasBytes with HasFD {
-    def status = bytes.toInt
+    override def status = bytes.toInt
   }
 
   object Read {
@@ -181,7 +183,7 @@ object LogEntry {
 
   case class Write(epoch: String, fd: String, reqbytes: Long, bytes: Long, time: String)
       extends LogEntry with HasBytes with HasFD {
-    def status = bytes.toInt
+    override def status = bytes.toInt
   }
 
   object Write {

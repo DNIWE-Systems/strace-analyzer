@@ -34,16 +34,16 @@ trait HasFileOpSummary {
       seconds = this.seconds + that.seconds
     )
 
-    def bps = bytes / seconds
-    def bpo = bytes.toDouble / ops
-    def hBytes = Memory.humanize(bytes)
-    def hSeconds = Duration.humanize(seconds)
-    def hbps = Memory.humanize(bps.round)
-    def hbpo = Memory.humanize(bpo.round)
-    def areqbytes = reqbytes.toDouble / ops
-    def hreqbytes = Memory.humanize(areqbytes.round)
+    def bps: Double = bytes / seconds
+    def bpo: Double = bytes.toDouble / ops
+    def hBytes: String = Memory.humanize(bytes)
+    def hSeconds: String = Duration.humanize(seconds)
+    def hbps: String = Memory.humanize(bps.round)
+    def hbpo: String = Memory.humanize(bpo.round)
+    def areqbytes: Double = reqbytes.toDouble / ops
+    def hreqbytes: String = Memory.humanize(areqbytes.round)
 
-    def humanized(op: String) =
+    def humanized(op: String): String =
       s"""$op $hBytes in $hSeconds (~ $hbps / s) with $ops ops (~ $hbpo / op, ~ $hreqbytes request size)"""
   }
 

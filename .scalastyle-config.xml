@@ -1,0 +1,29 @@
+<scalastyle>
+
+  <name>strace analyzer - Scala style specification</name>
+
+  <!-- low-level whitespace style -->
+
+  <check level="error" class="org.scalastyle.file.FileTabChecker" enabled="true"></check>
+
+  <check level="error" class="org.scalastyle.file.WhitespaceEndOfLineChecker" enabled="true"></check>
+
+  <check level="error" class="org.scalastyle.file.NewLineAtEofChecker" enabled="true"></check>
+
+  <!-- naming things -->
+
+  <check level="error" class="org.scalastyle.scalariform.ObjectNamesChecker" enabled="true">
+    <parameters>
+      <parameter name="regex"><![CDATA[[A-Za-z]+]]></parameter>
+    </parameters>
+  </check>
+
+  <!-- semantics -->
+
+  <check level="error" class="org.scalastyle.scalariform.PublicMethodsHaveTypeChecker" enabled="true">
+    <parameters>
+      <parameter name="ignoreOverride">true</parameter>
+    </parameters>
+  </check>
+
+</scalastyle>

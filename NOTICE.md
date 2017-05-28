@@ -25,9 +25,8 @@ whose licenses, conditions, copyright notices, etc. are listed here.
 ## Scala
 
 ```
-Copyright (c) 2002-2015 EPFL
-
-Copyright (c) 2011-2015 Typesafe, Inc.
+Copyright (c) 2002-2016 EPFL
+Copyright (c) 2011-2016 Lightbend, Inc.
 
 All rights reserved.
 
@@ -93,7 +92,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ## JCommon
 
 ```
-(C) Copyright 2000-2011, by Object Refinery Limited and Contributors.
+(C) Copyright 2000-2014, by Object Refinery Limited and Contributors.
 ```
 
 ```

@@ -11,6 +11,8 @@ Analyzes [strace][] output. Currently, the following analysis commands are provi
 
 File descriptors are associated with file names. The association is made when syscalls like **open**, **creat**, **dup** or **pipe** are read from the log and the association gets terminated when they get **close**d.
 
+Pre-built packages can be downloaded from the [GitHub releases page][releases].
+
 building
 --------
 
@@ -75,20 +77,20 @@ features that will not be implemented
 
 In the spirit of the Unix philosohpy of **do one thing and do it well**, strace-analyzer will **not** do any of the following:
 
--   filtering, use tools like [grep][] or [awk][], e.g.:
+-   *filtering*, use tools like [grep][] or [awk][], e.g.:
 
     ```console
     $ strace-analyzer read strace.log.1835 | grep scala
     $ strace-analyzer read strace.log.1835 | awk '/scala/'
     ```
 
--   sorting, use the [sort][] command line utility, e.g.:
+-   *sorting*, use the [sort][] command line utility, e.g.:
 
     ```console
     $ strace-analyzer read strace.log.27049 | sort -h -k 2
     ```
 
--   pretty tabular output printing, use the [column][] command line utility, e.g.:
+-   pretty *tabular output* printing, use the [column][] command line utility, e.g.:
 
     ```console
     $ strace-analyzer read strace.log.27049 | column -t
@@ -99,6 +101,7 @@ In the spirit of the Unix philosohpy of **do one thing and do it well**, strace-
 [grep]: http://man7.org/linux/man-pages/man1/grep.1.html "grep man page"
 [jdk]: https://en.wikipedia.org/wiki/Java_Development_Kit "Java Development Kit"
 [newissue]: https://github.com/wookietreiber/strace-analyzer/issues/new "open new issue"
+[releases]: https://github.com/wookietreiber/strace-analyzer/releases "pre-built strace-analyzer releases"
 [sbt]: http://www.scala-sbt.org/ "sbt"
 [sort]: http://man7.org/linux/man-pages/man1/sort.1.html "sort man page"
 [strace]: http://sourceforge.net/projects/strace/ "strace home page"

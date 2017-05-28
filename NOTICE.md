@@ -1,7 +1,7 @@
 # strace-analyzer - analyzes strace output
 
 ```
-Copyright  (C)  2015-2016  Christian Krause
+Copyright  (C)  2015-2017  Christian Krause
 
 Christian Krause  <christian.krause@mailbox.org>
 

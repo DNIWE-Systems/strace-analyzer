@@ -1,6 +1,6 @@
 % STRACE-ANALYZER(1) Version 0.3.0-SNAPSHOT | strace-analyzer manual
 %
-% March 2016
+% May 2017
 
 # NAME
 
